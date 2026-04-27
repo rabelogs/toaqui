@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tô Aqui — Companhia de confiança para quem você ama</title>
+  <meta name="description" content="Companhia e acompanhamento humano de confiança para idosos em São Paulo. Acompanhamos em consultas, passeios e momentos do dia a dia.">
+  <meta name="theme-color" content="#C4693D">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <style>
+    /* ── RESET & VARIABLES ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --terra:       #C4693D;
+      --terra-dark:  #A85830;
+      --terra-light: #D4794D;
+      --terra-pale:  rgba(196,105,61,.10);
+      --cream:       #FDF8F3;
+      --white:       #FFFFFF;
+      --navy:        #1C3A2A;
+      --gray:        #6B6560;
+      --gray-light:  #E8E3DC;
+      --olive:       #5C7A4E;
+      --green-wa:    #25D366;
+      --serif:       'Playfair Display', Georgia, serif;
+      --sans:        'DM Sans', system-ui, sans-serif;
+      --sh-sm:  0 2px 8px rgba(0,0,0,.07);
+      --sh-md:  0 4px 20px rgba(0,0,0,.10);
+      --sh-lg:  0 8px 40px rgba(0,0,0,.13);
+      --r-sm: 8px; --r-md: 16px; --r-lg: 24px; --r-pill: 9999px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--cream); color: var(--navy); line-height: 1.6; overflow-x: hidden; }
+    img  { max-width: 100%; height: auto; display: block; }
+    a    { text-decoration: none; color: inherit; }
+    ul   { list-style: none; }
+
+    /* ── UTILITIES ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .sec-title {
+      font-family: var(--serif); font-size: clamp(1.8rem,3vw,2.6rem);
+      font-weight: 600; color: var(--navy); text-align: center; margin-bottom: 3rem;
+    }
+    .fade { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+    .fade.in { opacity: 1; transform: none; }
+
+    /* ── NAVBAR ── */
+    .nav {
+      position: fixed; inset: 0 0 auto; z-index: 900;
+      background: var(--white); height: 72px;
+      display: flex; align-items: center; padding: 0 24px;
+      transition: box-shadow .3s;
+    }
+    .nav.scrolled { box-shadow: var(--sh-md); }
+    .nav-inner {
+      max-width: 1200px; width: 100%; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+    }
+    .logo {
+      font-family: var(--serif); font-style: italic; font-size: 1.75rem;
+      font-weight: 600; color: var(--navy); flex-shrink: 0; line-height: 1;
+    }
+    .logo .dot { color: var(--terra); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { font-size: .92rem; font-weight: 500; color: var(--gray); transition: color .2s; }
+    .nav-links a:hover { color: var(--navy); }
+    .btn-nav {
+      background: var(--terra); color: var(--white) !important; padding: 10px 22px;
+      border-radius: var(--r-pill); font-weight: 600; font-size: .9rem;
+      transition: background .2s, transform .2s; white-space: nowrap;
+    }
+    .btn-nav:hover { background: var(--terra-dark); transform: translateY(-1px); }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 8px;
+    }
+    .hamburger span { width: 24px; height: 2px; background: var(--navy); border-radius: 2px; display: block; transition: .3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mob-menu {
+      display: none; position: fixed; top: 72px; inset-inline: 0;
+      background: var(--white); padding: 24px; box-shadow: var(--sh-md); z-index: 899;
+    }
+    .mob-menu.open { display: block; }
+    .mob-menu ul { display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 1.5rem; }
+    .mob-menu ul a { font-size: 1.05rem; font-weight: 500; color: var(--navy); }
+    .mob-menu .btn-nav { display: block; text-align: center; }
+
+    /* ── BUTTONS ── */
+    .btn-prim {
+      background: var(--terra); color: var(--white); padding: 14px 28px;
+      border-radius: var(--r-pill); font-family: var(--sans); font-weight: 600;
+      font-size: 1rem; display: inline-flex; align-items: center; gap: 8px;
+      border: none; cursor: pointer;
+      transition: background .2s, transform .2s, box-shadow .2s;
+    }
+    .btn-prim:hover { background: var(--terra-dark); transform: translateY(-2px); box-shadow: 0 6px 22px rgba(196,105,61,.35); }
+    .btn-sec {
+      background: var(--white); color: var(--navy); padding: 14px 28px;
+      border-radius: var(--r-pill); font-family: var(--sans); font-weight: 600;
+      font-size: 1rem; display: inline-flex; align-items: center; gap: 8px;
+      border: 1.5px solid var(--gray-light); cursor: pointer;
+      transition: border-color .2s, transform .2s;
+    }
+    .btn-sec:hover { border-color: var(--gray); transform: translateY(-2px); }
+
+    /* ── HERO ── */
+    .hero { padding: 116px 24px 80px; background: var(--cream); }
+    .hero-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--terra-pale); color: var(--terra);
+      font-size: .82rem; font-weight: 600; padding: 6px 14px;
+      border-radius: var(--r-pill); margin-bottom: 1.4rem;
+    }
+    .hero-badge::before { content:''; width:8px; height:8px; background:var(--terra); border-radius:50%; }
+    .hero h1 {
+      font-family: var(--serif); font-style: italic;
+      font-size: clamp(2rem,4vw,3.4rem); font-weight: 600; line-height: 1.18;
+      color: var(--navy); margin-bottom: 1.4rem;
+    }
+    .hero p { font-size: 1.08rem; color: var(--gray); line-height: 1.72; margin-bottom: 2.4rem; max-width: 480px; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-img-wrap { position: relative; }
+    .hero-img-wrap img {
+      width: 100%; height: 530px; object-fit: cover;
+      border-radius: var(--r-lg); box-shadow: var(--sh-lg);
+    }
+    .hero-img-badge {
+      position: absolute; bottom: 24px; left: 24px;
+      background: var(--white); border-radius: var(--r-md);
+      padding: 12px 18px; display: flex; align-items: center; gap: 10px;
+      box-shadow: var(--sh-md);
+    }
+    .hero-img-badge .bicon {
+      width: 40px; height: 40px; background: var(--terra); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .hero-img-badge .btext {
+      font-family: var(--serif); font-style: italic; font-size: 1.1rem; font-weight: 600; color: var(--navy);
+    }
+    .hero-img-badge .btext .dot { color: var(--terra); }
+
+    /* ── DIFERENCIAIS ── */
+    .difs { background: var(--white); padding: 60px 24px; }
+    .difs-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem;
+    }
+    .dif-card {
+      display: flex; gap: 1.2rem; align-items: flex-start;
+      padding: 28px 24px; border-radius: var(--r-md);
+      transition: box-shadow .2s;
+    }
+    .dif-card:hover { box-shadow: var(--sh-sm); }
+    .dif-ico {
+      width: 52px; height: 52px; background: var(--terra-pale); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .dif-ico svg { width:26px; height:26px; stroke:var(--terra); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+    .dif-card h3 { font-family:var(--serif); font-size:1.08rem; font-weight:600; color:var(--navy); margin-bottom:.4rem; }
+    .dif-card p  { font-size:.88rem; color:var(--gray); line-height:1.65; }
+
+    /* ── SERVICES ── */
+    .services { background: var(--cream); padding: 80px 24px; }
+    .srv-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem;
+    }
+    .srv-card {
+      background: var(--white); border-radius: var(--r-md); padding: 2rem 1.5rem;
+      box-shadow: var(--sh-sm); transition: transform .2s, box-shadow .2s;
+    }
+    .srv-card:hover { transform: translateY(-5px); box-shadow: var(--sh-md); }
+    .srv-ico {
+      width: 56px; height: 56px; background: var(--terra-pale); border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem;
+    }
+    .srv-ico svg { width:28px; height:28px; stroke:var(--terra); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+    .srv-card h3 { font-family:var(--serif); font-size:1.08rem; font-weight:600; color:var(--navy); margin-bottom:.5rem; }
+    .srv-card p  { font-size:.88rem; color:var(--gray); line-height:1.65; }
+
+    /* ── PHOTO STRIP ── */
+    .photo-strip { position: relative; height: 380px; overflow: hidden; }
+    .photo-strip img { width:100%; height:100%; object-fit:cover; object-position: center 40%; }
+    .photo-strip-ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(28,58,42,.78) 0%, rgba(28,58,42,.52) 100%);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; text-align: center; padding: 2rem;
+      gap: 1.2rem;
+    }
+    .photo-strip-ov h2 {
+      font-family: var(--serif); font-style: italic; color: var(--white);
+      font-size: clamp(1.6rem,3vw,2.6rem); font-weight: 600; line-height: 1.25;
+    }
+    .photo-strip-ov p { color: rgba(255,255,255,.82); font-size:1.05rem; max-width:560px; }
+
+    /* ── HOW IT WORKS ── */
+    .how { background: var(--white); padding: 80px 24px; }
+    .steps {
+      max-width: 960px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem;
+      position: relative;
+    }
+    .steps::before {
+      content: ''; position: absolute; top: 27px;
+      left: calc(16.67% + 27px); right: calc(16.67% + 27px);
+      height: 2px;
+      background: repeating-linear-gradient(to right, var(--gray-light) 0, var(--gray-light) 8px, transparent 8px, transparent 18px);
+    }
+    .step { display:flex; flex-direction:column; align-items:center; text-align:center; gap:1.1rem; }
+    .step-num {
+      width:54px; height:54px; background:var(--terra); border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      color:var(--white); font-family:var(--serif); font-size:1.4rem; font-weight:700;
+      position:relative; z-index:1; flex-shrink:0;
+    }
+    .step h3 { font-family:var(--serif); font-size:1.08rem; font-weight:600; color:var(--navy); }
+    .step p  { font-size:.88rem; color:var(--gray); line-height:1.68; }
+
+    /* ── WHY FAMILIES ── */
+    .why { background: var(--cream); padding: 80px 24px; }
+    .why-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem;
+    }
+    .why-card {
+      background: var(--white); border-radius: var(--r-md); padding: 2rem 1.5rem;
+      box-shadow: var(--sh-sm); transition: transform .2s, box-shadow .2s;
+    }
+    .why-card:hover { transform: translateY(-5px); box-shadow: var(--sh-md); }
+    .why-ico { width:48px; height:48px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem; }
+    .why-ico svg { width:34px; height:34px; stroke:var(--terra); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+    .why-card h3 { font-family:var(--serif); font-size:1.05rem; font-weight:600; color:var(--navy); margin-bottom:.4rem; }
+    .why-card p  { font-size:.87rem; color:var(--gray); line-height:1.65; }
+
+    /* ── FAQ ── */
+    .faq { background: var(--white); padding: 80px 24px; }
+    .faq-wrap { max-width: 760px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid var(--gray-light); }
+    .faq-q {
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+      padding: 1.3rem 0; cursor: pointer; background: none; border: none; width: 100%;
+      text-align: left; font-family: var(--sans); font-size: 1rem; font-weight: 500;
+      color: var(--navy); transition: color .2s;
+    }
+    .faq-q:hover { color: var(--terra); }
+    .faq-chev { width:22px; height:22px; stroke:var(--terra); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; transition:transform .3s; }
+    .faq-item.open .faq-chev { transform: rotate(180deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+    .faq-item.open .faq-a { max-height: 300px; }
+    .faq-a p { padding-bottom: 1.2rem; font-size:.95rem; color:var(--gray); line-height:1.72; }
+
+    /* ── CTA FINAL ── */
+    .cta-final { background: var(--terra); padding: 88px 24px; text-align: center; }
+    .cta-final h2 {
+      font-family: var(--serif); font-style: italic;
+      font-size: clamp(2rem,4vw,3rem); font-weight: 600; color: var(--white);
+      line-height: 1.25; margin-bottom: 2.2rem;
+      max-width: 640px; margin-inline: auto;
+    }
+    .btn-cta {
+      background: var(--white); color: var(--terra); padding: 16px 38px;
+      border-radius: var(--r-pill); font-family: var(--sans); font-weight: 700;
+      font-size: 1.05rem; display: inline-flex; align-items: center; gap: 8px;
+      border: none; cursor: pointer; transition: transform .2s, box-shadow .2s;
+    }
+    .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,.22); }
+
+    /* ── FOOTER ── */
+    .footer { background: var(--navy); color: var(--white); padding: 64px 24px 32px; }
+    .footer-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+      padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .footer .logo { color: var(--white); margin-bottom: .8rem; display: inline-block; }
+    .footer-brand p { font-size:.9rem; color:rgba(255,255,255,.65); line-height:1.7; margin-bottom:1.2rem; }
+    .footer-contact p { font-size:.88rem; color:rgba(255,255,255,.6); line-height:2; }
+    .footer-col h4 { font-family:var(--serif); font-size:.95rem; font-weight:600; color:var(--white); margin-bottom:1rem; }
+    .footer-col ul { display:flex; flex-direction:column; gap:.7rem; }
+    .footer-col ul a { font-size:.88rem; color:rgba(255,255,255,.6); transition:color .2s; }
+    .footer-col ul a:hover { color:var(--white); }
+    .soc-links { display:flex; gap:10px; margin-top:.5rem; }
+    .soc-link {
+      width:38px; height:38px; background:rgba(255,255,255,.1); border-radius:50%;
+      display:flex; align-items:center; justify-content:center; transition:background .2s;
+    }
+    .soc-link:hover { background:rgba(255,255,255,.2); }
+    .soc-link svg { width:18px; height:18px; stroke:white; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+    .footer-bottom { max-width:1200px; margin:2rem auto 0; text-align:center; }
+    .footer-bottom p { font-size:.83rem; color:rgba(255,255,255,.35); }
+
+    /* ── WHATSAPP FLOAT ── */
+    .wa-float {
+      position: fixed; bottom: 28px; right: 28px; z-index: 999;
+      width: 58px; height: 58px; background: var(--green-wa); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 18px rgba(37,211,102,.5);
+      animation: wapulse 2.8s infinite;
+      transition: transform .2s;
+    }
+    .wa-float:hover { transform: scale(1.12); }
+    .wa-float svg { width:30px; height:30px; fill:white; }
+    @keyframes wapulse {
+      0%,100% { box-shadow: 0 4px 18px rgba(37,211,102,.5); }
+      50%      { box-shadow: 0 4px 18px rgba(37,211,102,.5), 0 0 0 14px rgba(37,211,102,.1); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1024px) {
+      .srv-grid  { grid-template-columns: repeat(2,1fr); }
+      .why-grid  { grid-template-columns: repeat(2,1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media(max-width:768px) {
+      .nav-links, .nav .btn-nav { display: none; }
+      .hamburger { display: flex; }
+      .hero { padding: 100px 24px 60px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-img-wrap { order: -1; }
+      .hero-img-wrap img { height: 300px; }
+      .hero p { max-width: 100%; }
+      .difs-grid { grid-template-columns: 1fr; }
+      .srv-grid  { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; gap: 2.5rem; }
+      .steps::before { display: none; }
+      .why-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .photo-strip { height: 280px; }
+    }
+    @media(max-width:480px) {
+      .hero-btns { flex-direction: column; }
+      .btn-prim, .btn-sec { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════ NAVBAR ════════ -->
+<header class="nav" id="nav" role="banner">
+  <div class="nav-inner">
+    <a href="#" class="logo" aria-label="Tô Aqui — início">Tô Aqui<span class="dot">.</span></a>
+    <nav aria-label="Principal">
+      <ul class="nav-links">
+        <li><a href="#como-funciona">Como funciona</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#familias">Para famílias</a></li>
+        <li><a href="#contato">Contato</a></li>
+        <li><a href="https://wa.me/5511XXXXXXXXX" class="btn-nav">Agendar conversa</a></li>
+      </ul>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mob-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ════════ MOBILE MENU ════════ -->
+<nav class="mob-menu" id="mob-menu" aria-label="Menu mobile">
+  <ul>
+    <li><a href="#como-funciona">Como funciona</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#familias">Para famílias</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <a href="https://wa.me/5511XXXXXXXXX" class="btn-nav">Agendar conversa</a>
+</nav>
+
+<main>
+
+<!-- ════════ HERO ════════ -->
+<section class="hero" aria-label="Apresentação">
+  <div class="hero-grid">
+    <div class="fade">
+      <span class="hero-badge">São Paulo · Companhia de confiança</span>
+      <h1>Companhia de confiança quando você não pode estar.</h1>
+      <p>Acompanhamos quem você ama em consultas, exames, passeios e momentos do dia a dia, com presença, conversa e tranquilidade para a família.</p>
+      <div class="hero-btns">
+        <a href="#servicos" class="btn-prim">
+          <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Quero conhecer
+        </a>
+        <a href="https://wa.me/5511XXXXXXXXX" class="btn-sec" aria-label="Falar no WhatsApp">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Falar no WhatsApp
+        </a>
+      </div>
+    </div>
+    <div class="hero-img-wrap fade" style="transition-delay:.15s">
+      <img
+        src="https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?w=800&q=80"
+        alt="Idosa sorrindo ao lado de acompanhante jovem"
+        loading="eager"
+        onerror="this.src='https://images.unsplash.com/photo-1556483024-1fc76f587813?w=800&q=80'">
+      <div class="hero-img-badge" aria-hidden="true">
+        <div class="bicon">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="white" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <span class="btext">Tô Aqui<span class="dot">.</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ DIFERENCIAIS ════════ -->
+<section class="difs fade" aria-label="Nossos diferenciais">
+  <div class="difs-grid">
+
+    <div class="dif-card">
+      <div class="dif-ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <div>
+        <h3>Presença de verdade</h3>
+        <p>Mais que companhia, oferecemos atenção e cuidado em cada momento.</p>
+      </div>
+    </div>
+
+    <div class="dif-card">
+      <div class="dif-ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+      </div>
+      <div>
+        <h3>Profissionais selecionados</h3>
+        <p>Pessoas experientes, checadas e preparadas para o bem-estar de quem você ama.</p>
+      </div>
+    </div>
+
+    <div class="dif-card">
+      <div class="dif-ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12 19.79 19.79 0 0 1 1.92 3.44 2 2 0 0 1 3.92 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </div>
+      <div>
+        <h3>Atualização para a família</h3>
+        <p>Você recebe informações e avisos para acompanhar tudo com tranquilidade.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════ SERVICES ════════ -->
+<section class="services" id="servicos" aria-labelledby="srv-title">
+  <div class="container">
+    <h2 class="sec-title fade" id="srv-title">Como podemos ajudar</h2>
+    <div class="srv-grid">
+
+      <div class="srv-card fade">
+        <div class="srv-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></svg>
+        </div>
+        <h3>Consultas e exames</h3>
+        <p>Acompanhamos em consultas, exames e procedimentos com segurança e atenção.</p>
+      </div>
+
+      <div class="srv-card fade" style="transition-delay:.1s">
+        <div class="srv-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M5 14l2-3 2 2 2-4 2 3"/></svg>
+        </div>
+        <h3>Passeios e caminhadas</h3>
+        <p>Companhia para passeios, atividades ao ar livre e momentos de lazer.</p>
+      </div>
+
+      <div class="srv-card fade" style="transition-delay:.2s">
+        <div class="srv-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h3>Companhia em casa</h3>
+        <p>Conversas, leitura, jogos e presença carinhosa para o dia a dia em casa.</p>
+      </div>
+
+      <div class="srv-card fade" style="transition-delay:.3s">
+        <div class="srv-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>Rotina do dia a dia</h3>
+        <p>Apoio em pequenas tarefas, refeições, lembretes e hábitos saudáveis.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════ PHOTO STRIP ════════ -->
+<div class="photo-strip" role="img" aria-label="Companhia humana de confiança">
+  <img
+    src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=1400&q=80"
+    alt="Duas pessoas caminhando juntas no parque"
+    loading="lazy"
+    onerror="this.src='https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=1400&q=80'">
+  <div class="photo-strip-ov">
+    <h2>"A presença humana que faz toda a diferença."</h2>
+    <p>Cada visita é pensada para trazer conforto, segurança e alegria — não só para quem é acompanhado, mas para toda a família.</p>
+  </div>
+</div>
+
+<!-- ════════ HOW IT WORKS ════════ -->
+<section class="how" id="como-funciona" aria-labelledby="how-title">
+  <div class="container">
+    <h2 class="sec-title fade" id="how-title">Como funciona</h2>
+    <div class="steps">
+
+      <div class="step fade">
+        <div class="step-num" aria-hidden="true">1</div>
+        <h3>Conte a necessidade</h3>
+        <p>Você nos conta o que precisa e quando. Entendemos a rotina e o perfil de quem será acompanhado.</p>
+      </div>
+
+      <div class="step fade" style="transition-delay:.15s">
+        <div class="step-num" aria-hidden="true">2</div>
+        <h3>Escolhemos o perfil ideal</h3>
+        <p>Selecionamos o profissional mais adequado para oferecer segurança, empatia e a melhor experiência.</p>
+      </div>
+
+      <div class="step fade" style="transition-delay:.3s">
+        <div class="step-num" aria-hidden="true">3</div>
+        <h3>Acompanhamos e avisamos você</h3>
+        <p>Estamos juntos em cada momento e mantemos você informado com atualizações por WhatsApp.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════ WHY FAMILIES ════════ -->
+<section class="why" id="familias" aria-labelledby="why-title">
+  <div class="container">
+    <h2 class="sec-title fade" id="why-title">Por que famílias escolhem a Tô Aqui</h2>
+    <div class="why-grid">
+
+      <div class="why-card fade">
+        <div class="why-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <h3>Mais tranquilidade</h3>
+        <p>Você fica tranquilo sabendo que seu familiar está bem cuidado e acompanhado.</p>
+      </div>
+
+      <div class="why-card fade" style="transition-delay:.1s">
+        <div class="why-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h3>Atendimento humano</h3>
+        <p>Nosso cuidado é feito por pessoas empáticas, pacientes e atenciosas.</p>
+      </div>
+
+      <div class="why-card fade" style="transition-delay:.2s">
+        <div class="why-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h3>Flexibilidade</h3>
+        <p>Atendimentos avulsos ou recorrentes, de acordo com a sua necessidade.</p>
+      </div>
+
+      <div class="why-card fade" style="transition-delay:.3s">
+        <div class="why-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <h3>Respeito à autonomia</h3>
+        <p>Incentivamos a independência e respeitamos as escolhas e preferências de cada pessoa.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════ FAQ ════════ -->
+<section class="faq" id="faq" aria-labelledby="faq-title">
+  <div class="faq-wrap">
+    <h2 class="sec-title fade" id="faq-title">Perguntas frequentes</h2>
+
+    <div class="faq-item fade">
+      <button class="faq-q" aria-expanded="false">
+        Vocês são cuidadores de saúde?
+        <svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a" role="region">
+        <p>Não. Não somos enfermagem, home care ou cuidador técnico. Somos companhia e acompanhamento humano — presença de verdade para o dia a dia.</p>
+      </div>
+    </div>
+
+    <div class="faq-item fade">
+      <button class="faq-q" aria-expanded="false">
+        Como funciona o pagamento?
+        <svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a" role="region">
+        <p>Combinamos antes. Aceito Pix. Nunca pedimos dinheiro adiantado.</p>
+      </div>
+    </div>
+
+    <div class="faq-item fade">
+      <button class="faq-q" aria-expanded="false">
+        E se meu familiar não se sentir confortável?
+        <svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a" role="region">
+        <p>A primeira visita é gratuita. Sem cobranças, sem pressão. O conforto de quem você ama é nossa prioridade.</p>
+      </div>
+    </div>
+
+    <div class="faq-item fade">
+      <button class="faq-q" aria-expanded="false">
+        Atendem fora de São Paulo?
+        <svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a" role="region">
+        <p>Por enquanto atuamos apenas em São Paulo. Consulte sobre sua região — estamos crescendo.</p>
+      </div>
+    </div>
+
+    <div class="faq-item fade">
+      <button class="faq-q" aria-expanded="false">
+        Posso estar presente na primeira visita?
+        <svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a" role="region">
+        <p>Claro — incentivamos isso. Sua presença na primeira visita ajuda a criar confiança e conforto para todos.</p>
+      </div>
+    </div>
+
+    <div class="faq-item fade">
+      <button class="faq-q" aria-expanded="false">
+        Como fico sabendo como foi o atendimento?
+        <svg class="faq-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a" role="region">
+        <p>Após cada visita, a família recebe um retorno simples por WhatsApp. Você fica sempre informado e tranquilo.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!--
+  ════════════════════════════════════════════════════
+  DEPOIMENTOS — pronto para adicionar depois
+  ════════════════════════════════════════════════════
+  <section class="testimonials" id="depoimentos" aria-labelledby="test-title">
+    <div class="container">
+      <h2 class="sec-title" id="test-title">O que as famílias dizem</h2>
+      <div class="test-grid">
+        <blockquote class="test-card">
+          <p>"..."</p>
+          <footer>— Nome, relação</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+-->
+
+<!-- ════════ CTA FINAL ════════ -->
+<section class="cta-final" id="contato" aria-label="Agendar uma conversa">
+  <div class="container">
+    <h2>"Quando você não pode estar,<br>a gente está."</h2>
+    <a href="https://wa.me/5511XXXXXXXXX" class="btn-cta" aria-label="Agendar uma conversa pelo WhatsApp">
+      <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Agendar uma conversa
+    </a>
+  </div>
+</section>
+
+</main>
+
+<!-- ════════ FOOTER ════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-grid">
+
+    <div class="footer-brand">
+      <a href="#" class="logo" aria-label="Tô Aqui">Tô Aqui<span class="dot">.</span></a>
+      <p>Companhia de confiança para quem você ama.</p>
+      <div class="footer-contact">
+        <p>📞 (11) XXXXX-XXXX</p>
+        <p>✉️ contato@toaqui.com.br</p>
+        <p>📍 São Paulo — SP</p>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Navegação</h4>
+      <ul>
+        <li><a href="#como-funciona">Como funciona</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#familias">Para famílias</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Política de Privacidade</a></li>
+        <li><a href="#">Termos de Uso</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Siga a Tô Aqui</h4>
+      <div class="soc-links">
+        <a href="#" class="soc-link" aria-label="Instagram">
+          <svg viewBox="0 0 24 24">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="3"/>
+          </svg>
+        </a>
+        <a href="#" class="soc-link" aria-label="Facebook">
+          <svg viewBox="0 0 24 24">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Tô Aqui. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<!-- ════════ WHATSAPP FLOAT ════════ -->
+<a href="https://wa.me/5511XXXXXXXXX"
+   class="wa-float"
+   aria-label="Falar no WhatsApp"
+   target="_blank"
+   rel="noopener noreferrer">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  // Navbar shadow on scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 20), { passive: true });
+
+  // Hamburger
+  const hb = document.getElementById('hamburger');
+  const mm = document.getElementById('mob-menu');
+  hb.addEventListener('click', () => {
+    const open = mm.classList.toggle('open');
+    hb.classList.toggle('open', open);
+    hb.setAttribute('aria-expanded', open);
+  });
+  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mm.classList.remove('open'); hb.classList.remove('open'); hb.setAttribute('aria-expanded', false);
+  }));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-q').setAttribute('aria-expanded', false);
+      });
+      if (!wasOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', true);
+      }
+    });
+  });
+
+  // Fade-in on scroll
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
